@@ -1,0 +1,18 @@
+package com.example.demo.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.example.demo.dao.DeptDAO;
+
+@Controller
+public class DeptController {
+	private DeptDAO dao;
+
+	@GetMapping("/listDept")
+	public void listDept(Model model) {
+		DeptDAO dao = new DeptDAO();
+		model.addAttribute("list", dao.findAll());
+	}
+}

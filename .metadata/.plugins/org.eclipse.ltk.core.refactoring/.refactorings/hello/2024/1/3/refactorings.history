@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;com.example.controller&apos; to &apos;com.example.demo.controller&apos;&#x0D;&#x0A;- Original project: &apos;hello&apos;&#x0D;&#x0A;- Original element: &apos;hello/src/main/java/com.example.controller&apos;&#x0D;&#x0A;- Renamed element: &apos;hello/src/main/java/com.example.demo.controller&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;com.example.controller&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.example.controller" name="com.example.demo.controller" qualified="false" references="true" stamp="1705556570193" textual="false" version="1.0"/>
+</session>

@@ -1,0 +1,38 @@
+package com.example.demo.db;
+
+import java.io.InputStream;
+import java.util.List;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import com.example.demo.vo.DeptVO;
+
+public class DBManager {
+	// 마이바티즈 설정파일의 sql을 요청하기 위한 담당자
+	private static SqlSessionFactory factory;
+	
+	static {
+		try {
+			String resource = "com/example/demo/db/sqlMapConfig.xml";
+			// 파일 읽어옴
+			InputStream inputStream = Resources.getResourceAsStream(resource);
+			factory =
+			  new SqlSessionFactoryBuilder().build(inputStream);
+		} catch (Exception e) {
+			System.out.println("db 매니저 " +e.getMessage());
+		}
+	}
+	
+	
+	
+	public static List<DeptVO> findAll() {
+		List<DeptVO> list = null;
+		// 마이바티스 설정파일의 sql을 요청하기 위하여 sqlSession을 얻어온다
+		SqlSession session = factory.openSession();
+		
+		return list;
+	}
+}
