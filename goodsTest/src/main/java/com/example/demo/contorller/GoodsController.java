@@ -8,20 +8,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.dao.BoardDAO;
 import com.example.demo.dao.GoodsDAO;
 import com.example.demo.vo.GoodsVO;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Setter;
 
 @Controller
+@Setter
 public class GoodsController {
 	
 	@Autowired
-	private GoodsDAO dao;
-	public void setDao(GoodsDAO dao) {
-		this.dao = dao;
-	}
-
+	private GoodsDAO dao;	
+	
 
 	@GetMapping("/listGoods")
 	public void test(Model model) {

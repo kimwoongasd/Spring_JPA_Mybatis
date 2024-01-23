@@ -26,4 +26,6 @@
   <delete id="delete" parameterType="goodsVO">
   	delete goods where no = #{no}
   </delete>
+  
+  
 </mapper>

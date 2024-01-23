@@ -1,8 +1,8 @@
 eclipse.preferences.version=1
-org.springframework.ide.eclipse.boot.wizard.PopularityTracker.lombok=1
-org.springframework.ide.eclipse.boot.wizard.PopularityTracker.mybatis=4
-org.springframework.ide.eclipse.boot.wizard.PopularityTracker.oracle=6
-org.springframework.ide.eclipse.boot.wizard.PopularityTracker.web=14
+org.springframework.ide.eclipse.boot.wizard.PopularityTracker.lombok=3
+org.springframework.ide.eclipse.boot.wizard.PopularityTracker.mybatis=6
+org.springframework.ide.eclipse.boot.wizard.PopularityTracker.oracle=8
+org.springframework.ide.eclipse.boot.wizard.PopularityTracker.web=16
 org.springframework.ide.eclipse.boot.wizard.PreferredSelections.artifactId=goodsTest
 org.springframework.ide.eclipse.boot.wizard.PreferredSelections.bootVersion=3.2.2
 org.springframework.ide.eclipse.boot.wizard.PreferredSelections.description=Demo project for Spring Boot

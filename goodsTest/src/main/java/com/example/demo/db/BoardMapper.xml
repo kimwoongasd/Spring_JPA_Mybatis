@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+  <select id="listBoard" resultType="boardVO">
+	select b.* from (select a.*, rownum as rn from (select * from board order by b_ref desc, b_step) a) b where rn between #{start} and #{end}
+  </select>
+  
+  <select id="detailBoard" resultType="boardVO">
+  	select * from board where no = #{no}
+  </select>
+  
+  <insert id="insertBoard" parameterType="boardVO">
+  	insert into board values(#{no},#{title},#{writer},#{pwd},#{content},sysdate,0,#{fname},#{ip},#{b_ref},#{b_level},#{b_step})
+  </insert>
+  
+  <select id="boardNextNo" resultType="java.lang.Integer">
+  	select nvl(max(no), 0) + 1 from board
+  </select>
+	
+  <update id="updateStep">
+  	update board set b_step = b_step + 1 where b_ref=#{b_ref} and b_step > #{b_step}
+  </update>
+  
+  <select id="maxRecord" resultType="java.lang.Integer">
+  	select count(*) from board
+  </select>
+</mapper>
