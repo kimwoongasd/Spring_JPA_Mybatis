@@ -1,6 +1,7 @@
 package com.example.demo.db;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,7 +11,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.example.demo.vo.BoardVO;
+import com.example.demo.vo.EmpVO;
 import com.example.demo.vo.GoodsVO;
+import com.example.demo.vo.MemberVO;
 
 public class DBManager {
 	private static SqlSessionFactory factory;
@@ -24,6 +27,23 @@ public class DBManager {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	public static List<EmpVO> empList() {
+		List<EmpVO> list = null;
+		SqlSession session = factory.openSession();
+		list = session.selectList("emp.listEmp");
+		
+		return list;
+	}
+	
+	public static int join(MemberVO m) {
+		int re = -1;
+		SqlSession session = factory.openSession(true);
+		re = session.insert("member.join", m);
+		session.close();
+		
+		return re;
 	}
 	
 	public static int maxRecord() {

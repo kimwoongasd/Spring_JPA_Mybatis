@@ -26,4 +26,6 @@
   <select id="maxRecord" resultType="java.lang.Integer">
   	select count(*) from board
   </select>
+  
+ 
 </mapper>
