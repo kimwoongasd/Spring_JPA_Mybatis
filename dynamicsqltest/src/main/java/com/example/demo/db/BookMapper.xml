@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book">
+  <select id="findAll" resultType="bookVO">
+    select * from book
+    <if test="category != null and category != ''">
+    	where ${category} like '%${keyword}%'
+    </if>
+    
+    <if test="sColumn != null">
+    	order by ${sColumn}
+    </if>
+  </select>
+  
+  <select id="finByNo" resultType="bookVO">
+  	select * from book where bookid=#{bookid}
+  </select>
+</mapper>
