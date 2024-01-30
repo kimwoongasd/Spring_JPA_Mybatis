@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>회원목록</h2>
+	<hr>
+	title : <span th:text="${title}"></span><br>
+	year : <span th:text="${year}"></span><br>
+	<hr>
+	<ul>
+		<li th:each="m:${list}">
+			<span th:text="${m}"></span>
+		</li>
+	</ul>
+</body>
+</html>
