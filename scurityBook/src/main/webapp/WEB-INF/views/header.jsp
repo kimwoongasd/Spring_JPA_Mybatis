@@ -8,7 +8,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%@include file="../header.jsp" %>
-<h2>메뉴1입니다</h2>
+	<c:if test="${id != null}">
+		${id }님이 로그인하였습니다
+		<a href="/logout">로그아웃</a>
+	</c:if>
+	<c:if test="${id == null}">
+		${id }님이 로그인하였습니다
+		<a href="/login">로그아웃</a>
+	</c:if>
 </body>
 </html>

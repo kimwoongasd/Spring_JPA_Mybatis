@@ -8,6 +8,6 @@
 </head>
 <body>
 <h2>관리자 메뉴2입니다</h2>
-<%@include file="../logout.jsp" %>
+<%@include file="../header.jsp" %>
 </body>
 </html>

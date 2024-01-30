@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@include file="../header.jsp" %>
 <h2>메뉴2입니다</h2>
 </body>
 </html>
