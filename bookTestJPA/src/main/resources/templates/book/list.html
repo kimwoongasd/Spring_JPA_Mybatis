@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http:/www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -12,16 +12,12 @@
 			<tr>
 				<th>도서번호</th>
 				<th>도서명</th>
-				<th>가격</th>
-				<th>출판사</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr th:each="b:${list}">
 				<td th:text="${b.bookid}"></td>
-				<td th:text="${b.bookname}"></td>
-				<td th:text="${b.price}"></td>
-				<td th:text="${b.publisher}"></td>
+				<td><a th:href="@{detail(bookid=${b.bookid})}" th:text="${b.bookname}"></a></td>
 			</tr>
 		</tbody>
 	</table>

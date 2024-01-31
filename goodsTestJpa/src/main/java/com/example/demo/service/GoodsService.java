@@ -23,4 +23,6 @@ public class GoodsService {
 	public void save(GoodsVO g) {
 		dao.save(g);
 	}
+	
+	
 }

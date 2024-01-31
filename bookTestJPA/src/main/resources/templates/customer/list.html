@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+	$(function(){
+		$(".checkDelete").click(function(e){
+			var re = confirm("삭제하시겠습니까?");
+			if (re == false) {
+				e.preventDefault();
+				/*
+				var custid = $("#custid").val();
+				location.href="/customer/delete?custid="+custid;
+				*/
+			}
+		});
+	});
+</script>
+</head>
+<body>
+	<a th:href="@{/customer/insert}">등록</a>
+	<h2>고객목록</h2>
+	<hr>
+	<table border="1" width="80%">
+		<thead>
+			<tr>
+				<th>고객번호</th>
+				<th>고객명</th>
+				<th>주소</th>
+				<th>전화번호</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="c:${list}">
+				<td th:text="${c.custid}"></td>
+
+				<td><a th:href="@{detail(custid=${c.custid})}" th:text="${c.name}"></a></td>
+				<td th:text="${c.addr}"></td>
+				<td th:text="${c.phone}"></td>
+				<td>
+					<a th:href="@{/customer/update(custid=${c.custid})}">수정</a>
+					<a class="checkDelete" th:href="@{/customer/delete(custid=${c.custid})}">삭제</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>	
+</body>
+</html>
