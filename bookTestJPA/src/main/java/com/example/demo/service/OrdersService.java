@@ -26,7 +26,10 @@ public class OrdersService {
 		dao.insert(o);
 	}
 	
-	public List<OrdersVO> findAll(){
+	public List<OrdersVO> findAll(String keyword){
+		if (keyword != null && !keyword.equals("")) {
+			return dao.findByCustomer_NameContaining(keyword);
+		}
 		return dao.findAll();
 	}
 }

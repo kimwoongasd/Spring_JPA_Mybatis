@@ -8,12 +8,18 @@
 	<a href="/orders/insert">주문하기</a>
 	<h2>주문 목록</h2>
 	<hr>
+	<form action="/orders/list" method="get">
+		고객명 : <input type="search" name="keyword">
+		<input type="submit" value="검색">
+	</form>
 	<table border="1">
 		<thead>
 			<tr>
 				<td>주문번호</td>
 				<td>고객번호</td>
+				<td>고객명</td>
 				<td>도서번호</td>
+				<td>도서명</td>
 				<td>주문가격</td>
 				<td>주문날짜</td>
 			</tr>
@@ -22,7 +28,9 @@
 			<tr th:each="o:${list}">
 				<td th:text="${o.orderid}"></td>
 				<td th:text="${o.customer.custid}"></td>
+				<td th:text="${o.customer.name}"></td>
 				<td th:text="${o.book.bookid}"></td>
+				<td th:text="${o.book.bookname}"></td>
 				<td th:text="${o.saleprice}"></td>
 				<td th:text="${o.orderdate}"></td>
 			</tr>

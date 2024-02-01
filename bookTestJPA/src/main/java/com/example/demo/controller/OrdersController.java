@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,13 @@ public class OrdersController {
 	
 	
 	@GetMapping("/orders/list")
-	public void findAll(Model model){
-		model.addAttribute("list", os.findAll());
+	public void findAll(Model model, String keyword){
+		model.addAttribute("list", os.findAll(keyword));
 	}
 	
 	@GetMapping("/orders/insert")
-	public void insert(Model model) {
-		model.addAttribute("bList", bs.findAll());
+	public void insert(Model model, HashMap<String, String> map) {
+		model.addAttribute("bList", bs.findAll(null));
 		model.addAttribute("cList", cs.findAll());
 		model.addAttribute("orderid", os.getNextNo());
 	}

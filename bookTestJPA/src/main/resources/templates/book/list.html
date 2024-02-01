@@ -7,17 +7,31 @@
 <body>
 	<h2>도서목록</h2>
 	<hr>
+	<form action="/book/list" method="get">
+		<select name="catgory">
+			<option value="Bookid">도서번호</option>
+			<option value="Bookname">도서명</option>
+			<option value="Price">가격</option>
+			<option value="Publisher">출판사</option>
+		</select>
+		 : <input type="search" name="keyword"/>
+		<input type="submit" value="검색"/>
+	</form>
 	<table border="1" width="80%">
 		<thead>
 			<tr>
-				<th>도서번호</th>
-				<th>도서명</th>
+				<th><a href="/book/list?order=Bookid">도서번호</a></th>
+				<th><a href="/book/list?order=Bookname">도서명</a></th>
+				<th><a href="/book/list?order=Price">가격</a></th>
+				<th><a href="/book/list?order=Publisher">출판사</a></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr th:each="b:${list}">
 				<td th:text="${b.bookid}"></td>
 				<td><a th:href="@{detail(bookid=${b.bookid})}" th:text="${b.bookname}"></a></td>
+				<td th:text="${b.price}"></td>
+				<td th:text="${b.publisher}"></td>
 			</tr>
 		</tbody>
 	</table>
