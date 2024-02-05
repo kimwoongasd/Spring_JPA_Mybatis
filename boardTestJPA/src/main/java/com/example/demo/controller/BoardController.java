@@ -5,6 +5,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entity.Board;
+import com.example.demo.entity.Member;
 import com.example.demo.service.BoardService;
+import com.example.demo.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.Setter;
 
 @Controller
@@ -26,6 +32,10 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService bs;
+	@Autowired
+	private MemberService ms;
+	private int page = 0;
+	private int pageSize = 10;
 	
 	@GetMapping("/")
 	public String index() {
@@ -95,10 +105,40 @@ public class BoardController {
 		return view;
 	}
 	
-	@GetMapping("/board/list")
-	public List<Board> list(Model model){
-		List<Board> list = bs.findAll();
+	
+	
+	// 시큐리티 환경설정파일에서 로그인을 성공했을 때 이동할 URL인 이곳에서
+	// 로그인한 회원의 정보를 상태 유지
+	// URI방식으로 요청할 경우 view를 설정하거나 STring 반환
+	@GetMapping(value ={"/board/list/{pageNum}", "/board/list"})
+	public String list(HttpSession session, Model model,@PathVariable(required = false) Integer pageNum){
+		page = bs.getTotalRecord() / pageSize +1;
+		if (pageNum == null) {
+			pageNum = 1;
+			
+			
+		}
+		int start = (pageNum - 1) * pageSize;
+		int end = pageNum * pageSize;
+		
+		//인증된(로그인된) 회원의 정보를 갖고 오기 위하여 
+		//먼저 시큐리티의 인증객체가 필요합니다.
+		Authentication authentication = 
+				SecurityContextHolder.getContext().getAuthentication();
+		
+		//이 인증객체를 통해서 인증된(로그인한) User객체를 받아 옵니다.
+		User user = (User)authentication.getPrincipal();
+		//이, 인증된 User를 통해서 로그인한 회원의 아이디를 갖고 옵니다.
+		String id = user.getUsername();
+		
+		Member m = ms.findById(id);
+		session.setAttribute("m", m);
+
+		
+		List<Board> list = bs.findAll(start, end);
 		model.addAttribute("list", list);
-		return list;
+		model.addAttribute("page", page);
+		model.addAttribute("pageNum", pageNum);
+		return "/board/list";
 	}
 }

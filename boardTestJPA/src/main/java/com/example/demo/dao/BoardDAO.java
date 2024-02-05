@@ -14,12 +14,17 @@ import jakarta.transaction.Transactional;
 @Repository
 public interface BoardDAO extends JpaRepository<Board, Integer> {
 	
-	@Query(value = "select * from board order by b_ref desc, b_step", nativeQuery = true)
-	public List<Board> selectAll();
+	@Query(value = "select b.* from "
+			+ "(select a.*, rownum as rm from "
+			+ "(select * from board order by b_ref desc, b_step) a) b "
+			+ "where rm between ?1 and ?2", nativeQuery = true)
+	public List<Board> selectAll(int start, int end);
 	
 	@Query(value = "select nvl(max(no),0) + 1 from Board", nativeQuery = true)
 	public int getNextNo();
 	
+//	@Query(value = "select count(*) from Board")
+//	public int getTotalRecord();
 	
 	@Modifying	// 변경사항이 있을 겨우 사용
 	@Transactional

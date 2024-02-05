@@ -5,8 +5,16 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="/board/insert">게시글 등록</a>
+	<th:block th:if="${session.m.role} == admin">
+		<a href="/admin/index">관리자메뉴</a>
+	</th:block>
+	<span th:text="${session.m.id}+'('+${session.m.name}+')님 로그인 하였습니다.'">
+	</span>
+	<th:block th:if="${myList} != null">
+		<a>내글보기</a>
+	</th:block>
 	<h2>게시물 목록</h2>
+	<a href="/board/insert">게시글 등록</a>
 	<hr>
 	<table border="1" width="80%">
 		<thead>
@@ -31,5 +39,8 @@
 			</tr>
 		</tbody>
 	</table>
+	<span th:each="i:${#numbers.sequence(1, page)}">
+			<a th:href="@{'/board/list/'+${i}}" th:text="${i}"></a>
+	</span>
 </body>
 </html>

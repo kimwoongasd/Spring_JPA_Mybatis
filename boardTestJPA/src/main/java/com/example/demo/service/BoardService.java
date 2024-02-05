@@ -17,6 +17,11 @@ public class BoardService {
 	@Autowired
 	private BoardDAO dao;
 	
+	public int getTotalRecord() {
+//		return dao.getTotalRecord();
+		return (int)dao.count();
+	}
+	
 	public void insert(Board b) {
 		dao.insert(b);
 	}
@@ -25,8 +30,8 @@ public class BoardService {
 		return dao.getNextNo();
 	}
 	
-	public List<Board> findAll(){
-		return dao.selectAll();
+	public List<Board> findAll(int start, int end){
+		return dao.selectAll(start, end);
 	}
 	
 	public Board getById(int no) {

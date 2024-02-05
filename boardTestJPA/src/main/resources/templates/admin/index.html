@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+	$(function(){
+		$(".delete").click(function(e){
+			var a = confirm("삭제하시겠습니까?");
+			if (a == false) {
+				e.preventDefault();
+			}
+		})
+	})	
+</script>
+</head>
+<body>
+	<h2>유저목록</h2>
+	<hr>
+	<table border="1" width="80%">
+		<thead>
+			<tr>
+				<td>아이디</td>
+				<td>이름</td>
+				<td>Role</td>
+				<td>Action</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="m:${list}">
+				<td th:text="${m.id}"></td>
+				<td th:text="${m.name}"></td>
+				<td th:text="${m.role}"></td>
+				<td><a th:href="@{/admin/delete/}+${m.id}" class="delete">삭제</a></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
