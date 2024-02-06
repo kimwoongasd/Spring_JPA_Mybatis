@@ -10,7 +10,7 @@
 	글번호 : <span th:text="${b.no}"></span><br>
 	제목 : <span th:text="${b.title}"></span><br>
 	작성일 : <span th:text="${b.regdate}"></span><br>
-	작성자 : <span th:text="${b.writer}"></span><br>
+	작성자 : <span th:text="${b.member.id}"></span><br>
 	조회수 : <span th:text="${b.hit}"></span><br>
 	내용 : <textarea th:text="${b.content}" cols="30" rows="10" readonly></textarea><br>
 	<div th:if="${b.fname} != null">
@@ -25,5 +25,7 @@
 	</div>
 	<hr>
 	<a th:href="@{/board/insert(no=${b.no})}">답글 작성</a>
+	<a th:href="@{/board/update/}+${b.no}">수정</a>
+	<a th:href="@{/board/delete/}+${b.no}">삭제</a>
 </body>
 </html>

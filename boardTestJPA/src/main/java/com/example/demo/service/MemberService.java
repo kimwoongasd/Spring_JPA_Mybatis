@@ -28,10 +28,12 @@ public class MemberService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		
-//		dao.save(new Member("sist01","관리자1",PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("admin"),  "admin"));
+//		dao.save(new Member("kim", "유재석", PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("1234"), "user" , null));
+//		dao.save(new Member("lee", "이순신", PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("1234"), "user" , null));
+//		dao.save(new Member("kang", "강호동", PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("1234"), "user" , null));
+//		dao.save(new Member("sist01","관리자1",PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("admin"), "admin", null));
 //		dao.save(new Member("sist02","관리자2",
-//				PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("admin"),  "admin"));
+//				PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("admin"), "admin", null));
 		
 		Member m = null;
 		Optional<Member> o = dao.findById(username);

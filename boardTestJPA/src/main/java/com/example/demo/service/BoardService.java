@@ -17,9 +17,17 @@ public class BoardService {
 	@Autowired
 	private BoardDAO dao;
 	
+	public List<Board> mySelectAll(String id, int start, int end){
+		return dao.mySelectAll(id, start, end);
+	}
+	
 	public int getTotalRecord() {
 //		return dao.getTotalRecord();
 		return (int)dao.count();
+	}
+	
+	public int getTotalMyRecord(String id) {
+		return dao.getTotalMyRecord(id);
 	}
 	
 	public void insert(Board b) {
@@ -45,6 +53,14 @@ public class BoardService {
 	
 	public void updateStep(int b_ref, int b_step) {
 		dao.updateStep(b_ref, b_step);
+	}
+	
+	public void updateBoard(Board b) {
+		dao.updateBoard(b);
+	}
+	
+	public int deleteBoard(int no, String pwd) {
+		return dao.deleteBoard(no, pwd);
 	}
 }
 

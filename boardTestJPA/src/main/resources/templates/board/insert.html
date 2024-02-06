@@ -9,9 +9,10 @@
 	<h2>게시판 등록</h2>
 	<hr>
 	<form action="/board/insert" method="post" enctype="multipart/form-data">
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 		<input type="hidden" name="no" th:value="${r_no}"/>
 		제목 : <input type="text" name="title"/><br>
-		글쓴이 : <input type="text" name="writer"/><br>
+		글쓴이 : <input type="text" name="member.id" th:value="${session.m.id}" readonly/><br>
 		비밀번호 : <input type="password" name="pwd"/><br>
 		내용 : <textarea name="content" cols="30" rows="10"></textarea><br>
 		<input type="hidden" name="fname" value="${b.fname}">
