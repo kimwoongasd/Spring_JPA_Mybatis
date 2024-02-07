@@ -173,7 +173,7 @@ public class BoardController {
 		if (pageNum == null) {
 			pageNum = 1;
 		}
-		int start = (pageNum - 1) * pageSize;
+		int start = (pageNum - 1) * pageSize + 1;
 		int end = pageNum * pageSize;
 		
 		//인증된(로그인된) 회원의 정보를 갖고 오기 위하여 
@@ -191,9 +191,9 @@ public class BoardController {
 		
 		List<Board> list = bs.findAll(start, end);
 		if (writer != null && !writer.equals("")) {
-			page = bs.getTotalMyRecord(writer) / pageSize +1;
-			start = (pageNum - 1) * pageSize;
-			end = pageNum * pageSize;
+			page = bs.getTotalMyRecord(writer) /5 +1;
+			start = (pageNum - 1) * 5 + 1;
+			end = pageNum * 5;
 			list = bs.mySelectAll(writer, start, end);
 		}
 		

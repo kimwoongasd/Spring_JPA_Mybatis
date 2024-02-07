@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>도서목록</h2>
+	<hr>
+	<ul>
+		<li th:each="m:${map}">
+			<a th:href="${m.value}" th:text="${m.key}"></a>
+		</li>
+	</ul>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<style>
+		.page {
+			margin-right: 3px;
+			cursor: pointer;
+		}
+	</style>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script>
+		$(function () {
+			var arr;
+			var pageSize = 30; // 한 화면에 보여줄 레코드의 수
+			var totalRecord;
+			var totalPage;
+
+			var pageGroup = 5; // 한 화면에 보여줄 페이지의 수
+
+			// 페이징 그룹화 및 페이징
+			function printPage(pageNum) {
+				$("#paging").empty();
+				var startPage = Math.floor((pageNum - 1) / pageGroup) * pageGroup + 1;
+				var endpage = startPage + pageGroup - 1;
+
+				// 이전 버튼 생성
+				if (startPage > 1) {
+					var span = $("<span></span>").html("이전")
+						.addClass("page").attr("pageNum", startPage - 1);
+					$("#paging").append(span);
+				}
+
+				for (i = startPage; i <= endpage; i++) {
+					var span = $("<span></span>").html(i)
+						.addClass("page").attr("pageNum", i);
+					$("#paging").append(span);
+				}
+
+				// 다음 버튼 생성
+				if (endpage < totalPage) {
+					var span = $("<span></span>").html("다음")
+						.addClass("page").attr("pageNum", endpage + 1);
+					$("#paging").append(span);
+				}
+			}
+
+			// 현재 페이지 번호 맞는 도서30개 가져오기
+			function loadDate(pageNum) {
+				// 값을 지우고 넣어야한다
+				$("#list").empty();
+				var start = (pageNum - 1) * pageSize;
+				var end = pageNum * pageSize
+				if (end > totalRecord) {
+					end = totalRecord;
+				}
+
+				for (i = start; i < end; i++) {
+					var book = arr[i];
+					var title = book.title;
+					var link = book.link;
+					var a = $("<a></a>").html(title).attr("href", link);
+					var li = $("<li></li>");
+					$(li).append(a);
+					$("#list").append(li);
+				}
+				printPage(pageNum);
+			}
+
+			// 페이징을 위한 함수
+			/*
+			function printPage(){
+				for (i = 1; i <= totalPage; i++) {
+					var span = $("<span></span>").html(i)
+					.addClass("page");
+					$("#paging").append(span);			
+				}
+			}
+			*/
+
+			$("#paging").on("click", ".page", function () {
+				var pageNum = eval($(this).attr("pageNum"));
+				loadDate(pageNum);
+			});
+
+			$.ajax({
+				url: "/newbook",
+				success: function (r) {
+					arr = r;
+					totalRecord = arr.length;
+					totalPage = Math.ceil(totalRecord / pageSize);
+					loadDate(1);
+					//printPage();
+					/*
+					$.each(arr, function(){
+						var title = this.title;
+						var link = this.link;
+						var a = $("<a></a>").html(title).attr("href",link);
+						var li = $("<li></li>");
+						$(li).append(a);
+						$("#list").append(li);
+					});
+					*/
+				}
+			});
+			
+			$.ajax({
+				url:"/getWating",
+				success: function (r){
+					$("#wait").html(r);
+				}
+			});
+		});
+	</script>
+</head>
+
+<body>
+	마포평생학습관 빈 자리수 : <span id="wait"></span>
+	<h2>도서목록</h2>
+	<hr>
+	<ul id="list">
+	</ul>
+	<div id="paging">
+
+	</div>
+</body>
+
+</html>
