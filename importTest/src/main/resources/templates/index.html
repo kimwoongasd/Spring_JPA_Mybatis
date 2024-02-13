@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script>
+	$(function(){
+		var IMP = window.IMP;
+		// 가맹점 코드
+      	IMP.init("");
+      	// IMP.request_pay(param, callback)함수는 결제창을 호출하는 함수
+		$("#btn_pay").click(function(){
+			IMP.request_pay(
+				{
+					pg:"kcp",
+					pay_method:"card", // 결제방법
+					merchant_uid:"b1234_"+new Date().getTime(), // 상품번호
+					name:"컴퓨터",
+					amount:100,
+					buyer_email:"",
+					buyer_name:"이순신",
+					buyer_tel:"010-1234-7894",
+					buyer_addr:"서울시 마포구 서교동",
+					buyer_postcode:"123-123",
+				},
+				function(res){
+					console.log(res);
+					
+					if(res.success){
+						console.log("결제완료");
+						console.log("결제번호 : " + res.imp_uid);
+						console.log("주문번호 : " + res.merchant_uid);
+						console.log("결제금액 : " + res.paid_amount);
+						console.log("카드 승인번호 : " + res.apply_num);
+						
+						$("#imp_uid").val(res.imp_uid);
+						$("#merchant_uid").val(res.merchant_uid);
+						$("#paid_amount").val(res.paid_amount);
+						$("#apply_num").val(res.apply_num);
+						
+						$("#pay").submit();
+					} else {
+						console.log("결제실패");
+						console.log("에러 내용 : " + res.error_msg)
+					}
+				}
+			);
+		});
+	});
+</script>
+</head>
+<body>
+	<button id="btn_pay">결제</button>
+	<form action="/payok" method="post" id="pay">
+		<input type="hidden" name="imp_uid" id="imp_uid">
+		<input type="hidden" name="merchant_uid" id="merchant_uid">
+		<input type="hidden" name="paid_amount" id="paid_amount">
+		<input type="hidden" name="apply_num" id="apply_num">
+	</form>
+</body>
+</html>

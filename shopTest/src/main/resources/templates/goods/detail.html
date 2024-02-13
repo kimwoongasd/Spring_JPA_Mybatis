@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>상품상세</h2>
+	<hr />
+	상품번호 : <span th:text="${g.no}"></span> <br>
+	상품명 : <span th:text="${g.item}"></span><br> 
+	수량 : <span th:text="${g.qty}"></span> <br>
+	가격 : <span th:text="${g.price}"></span> <br>
+	이미지 : <img img th:src="@{'/images/'+${g.fname}}"></img> <br>
+	<a href="/goods/list">목록으로</a><br>
+	<a th:href="@{'/goods/order/'+${g.no}}">주문</a><br>
+</body>
+</html>
