@@ -6,7 +6,9 @@
 </head>
 <body>
 	<h2>상품목록</h2>
-	<a href="/goods/insert">상품등록</a>
+	<th:block th:if="${session.m.role} == 'admin'">
+		<a href="/goods/insert">상품등록</a>
+	</th:block>
 	<hr>
 	<table border="1">
 		<thead>
@@ -24,5 +26,6 @@
 			</tr>
 		</thead>
 	</table>
+	<a href="/cart/list">장바구니</a><br>
 </body>
 </html>

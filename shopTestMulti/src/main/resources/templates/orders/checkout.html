@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http:/www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+	<script>
+		$(function () {
+			// 생략가능
+			// var IMP = window.IMP;
+			IMP.init("");
+
+			var data = {
+				pg: "kcp",
+				pay_method: "card", // 결제방법
+				// 주문 번호가 같으면 오류
+				// 구분하기위해서 _ 추가
+				// merchant_uid: $("#no").html() + "_" + new Date().getTime(), // 주문번호
+				merchant_uid: "sist_" + new Date().getTime(), // 주문번호
+				name: $("#items").html(),
+				amount: $("#total").html(),
+				buyer_email: $("#email").html(),
+				buyer_name: $("#name").html(),
+				buyer_tel: $("#tel").html(),
+				buyer_addr: $("#addr").html(),
+				buyer_postcode: $("#postcode").html() // 우편번호
+			}
+
+			$("#btn_pay").click(function () {
+				IMP.request_pay(
+					data, function (res) {
+						if (res.success) {
+							$("#imp_uid").val(res.imp_uid);
+							$("#imp_uid").val(res.apply_num);
+
+							data.imp_uid = res.imp_uid;
+							data.apply_num = res.apply_num;
+							data.buyer_id = $("#id").val();
+
+							// 필요없는 객체 속성 삭제
+							delete data.pg;
+
+							$.ajax({
+								url: "/goods/payment",
+								data: data,
+								success: function (re) {
+									location.href = "/paymentOK.html";
+								}
+							})
+						} else {
+							location.href = "/paymentError.html";
+						}
+					}
+				)
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<h2>주문</h2>
+	<hr />
+	<input type="hidden" th:name="${_csrf.parameterName }" th:value="${_csrf.token }">
+	<input type="hidden" th:value="${session.m.id}" id="id"/><br />
+	회원명 : <span th:text="${session.m.name}" th:value="${session.m.name}" id="name"></span><br />
+	전화번호 : <span th:text="${session.m.tel}" th:value="${session.m.tel}" id="tel"></span><br />
+	이메일 : <span th:text="${session.m.email}" th:value="${session.m.email}" id="email"></span><br />
+	주소 : <span th:text="${session.m.addr}" th:value="${session.m.addr}" id="addr"></span><br />
+	우편번호 : <span th:text="${session.m.postcode}" th:value="${session.m.postcode}" id="postcode"></span><br />
+	<hr />
+	<div th:each="c:${list}">
+		상품명 : <span th:text="${c.gno}" id="gno"></span><br />
+		주문수량 : <span th:text="${c.qty}" id="qty"></span><br />
+	</div>
+	<hr>
+	총 주문금액 : <b><span th:text="${total}" id="total"></span></b><br />
+	상품명 : <span th:text="${name}" id="items"></span><br />
+	<input type="hidden" name="imp_uid" id="imp_uid">
+	<input type="hidden" name="merchant_uid" id="merchant_uid">
+	<input type="hidden" name="paid_amount" id="paid_amount">
+	<input type="hidden" name="apply_num" id="apply_num">
+	<button id="btn_pay">결제</button>
+</body>
+
+</html>

@@ -6,9 +6,9 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 	$(function(){
-		$("#btn_pay").click(function(){
+		$("#cart").click(function(){
 			var no = $("#no").html();
-			location.href = "/goods/order/" + no;
+			location.href = "/cart/add/" + no;
 		});
 	});
 </script>
@@ -16,12 +16,13 @@
 <body>
 	<h2>상품상세</h2>
 	<hr />
+	<input type="hidden" th:value="${session.m.id}">
 	상품번호 : <span th:text="${g.no}" id="no"></span> <br>
 	상품명 : <span th:text="${g.item}" id="item"></span><br> 
 	수량 : <span th:text="${g.qty}" id="qty"></span> <br>
 	가격 : <span th:text="${g.price}" id="price"></span> <br>
 	이미지 : <img img th:src="@{'/images/'+${g.fname}}"></img> <br>
 	<a href="/goods/list">목록으로</a><br>
-	<button id="btn_pay">결제</button>
+	<button id="cart">장바구니</button>
 </body>
 </html>

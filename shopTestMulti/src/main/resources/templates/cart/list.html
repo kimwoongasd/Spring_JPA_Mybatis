@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script>
+	$(function(){
+
+		var data = [];
+		$("#btn_pay").click(function(){
+			$('input:checkbox[class=check]').each(function(){
+				 if($(this).is(":checked")==true){
+	                data.push(($this).val());
+	            }
+			})
+			location.href="/orders/checkout/"+data;
+		});
+	});
+</script>
+</head>
+<body>
+	<h2>상품목록</h2>
+	<hr />
+	<table border="1">
+		<thead>
+			<tr>
+				<td>상품번호</td>
+				<td>수량</td>
+				<td>etc</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="c:${list}">
+				<td th:text="${c.gno}" class="id"></td>
+				<td th:text="${c.qty}"></td>
+				<td><input type="checkbox" class="check" th:value="${c.gno}"/></td>				
+			</tr>
+		</tbody>
+		<!--
+		<thead>
+			<tr>
+				<td>주문번호</td>
+				<td>상품번호</td>
+				<td>수량</td>
+				<td>상품명</td>
+				<td>가격</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="m:${map}">
+				<th:block th:each="c:${m.key}">
+					<td th:text="${m.no}"></td>
+					<td th:text="${m.gno}"></td>
+					<td th:text="${m.qty}"></td>
+				</th:block>
+				<th:block th:each="g:${m.value}">
+					<td th:text="${g.item}"></td>
+					<td th:text="${g.price}"></td>
+				</th:block>	
+			</tr>
+		</tbody>
+		-->
+	</table>
+	<button id="btn_pay">주문하기</button>
+</body>
+</html>
