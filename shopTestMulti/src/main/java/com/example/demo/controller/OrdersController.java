@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.demo.entity.Cart;
 import com.example.demo.entity.Goods;
@@ -26,10 +28,14 @@ public class OrdersController {
 	@Autowired
 	private GoodsService gs;
 	
-	@GetMapping("/orders/checkout")
-	public void checkout(Model model, HttpSession session) {
+	@GetMapping("/orders/checkout/{gnos}")
+	public String checkout(@PathVariable("gnos") String gnos, Model model, HttpSession session) {
 		String id = ((Member)session.getAttribute("m")).getId();
-		List<Cart> list = cs.findMy(id);
+		String[] gno = gnos.split(",");
+		List<Cart> list = new ArrayList<Cart>();
+		for (String x : gno) {
+			list.add(cs.findByIdAndGno(id, Integer.parseInt(x)));
+		}
 		
 		String name = "";
 		// 총 금액 임의로 설정
@@ -46,5 +52,7 @@ public class OrdersController {
 		model.addAttribute("list", list);
 		model.addAttribute("total", total);
 		model.addAttribute("name", name);
+		
+		return "/orders/checkout";
 	}
 }

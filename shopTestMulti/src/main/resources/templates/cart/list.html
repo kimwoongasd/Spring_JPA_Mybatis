@@ -12,7 +12,9 @@
 		$("#btn_pay").click(function(){
 			$('input:checkbox[class=check]').each(function(){
 				 if($(this).is(":checked")==true){
-	                data.push(($this).val());
+					var a = $(this).val();
+					console.log(a);
+	                data.push(a);
 	            }
 			})
 			location.href="/orders/checkout/"+data;

@@ -41,4 +41,8 @@ public class CartService {
 		
 		dao.save(c);
 	}
+	
+	public Cart findByIdAndGno(String id, int gno) {
+		return dao.findByIdAndGno(id, gno);
+	}
 }
