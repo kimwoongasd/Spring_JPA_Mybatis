@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<h2>도서관리 시스템</h2>
+	<hr />
+	<div id="box">
+	  {{ msg }}
+	</div>
+	
+	<div id="box2">
+		<span v-bind:title="name">
+			Hello
+		</span>
+	</div>
+	
+	<div id="box3">
+		<span v-if="seen">
+			내가 보임?		
+		</span>
+	</div>
+	
+	<div id="box4">
+		<ol>
+			<li v-for="todo in todos"> {{ todo.text }} </li>
+		</ol>
+	</div>
+	
+	<table>
+		<thead>
+			<tr>
+				<td>도서번호</td>
+				<td>도서명</td>
+				<td>가격</td>
+				<td>출판사</td>
+			</tr>
+		</thead>
+		<tbody id="list">
+			<tr v-for="b in book">
+				<td>{{ b.bookid }}</td>
+				<td>{{ b.bookname }}</td>
+				<td>{{ b.price }}</td>
+				<td>{{ b.publisher }}</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<hr />
+	
+	<div id="box5">
+		<p>{{ msg }}</p>
+		<button v-on:click="pro">거꾸로 뒤집기</button>
+	</div>
+	
+	<div id="box6">
+		<p>{{ name }}</p>
+		<input type="text" v-model="name"/>
+	</div>
+	
+	<script>
+		
+		var box6 = new Vue({
+			el:"#box6",
+			data:{
+				name:"홍길동"
+			},
+			methods:{}
+		})
+		
+		// v-on:click="함수명"
+		// 클릭시 발생할 함수
+		var box5 = new Vue({
+			el:"#box5",
+			data:{
+				msg:"hello"
+			},
+			methods:{
+				pro:function(){
+					// split : 글자 자르기, reverse: 뒤집기, join: 글자 연결
+					this.msg = this.msg.split("").reverse().join("")
+				}
+			}
+		});
+		
+		// for문으로 테이블 작성
+		var list = new Vue({
+			el:"#list",
+			data:{
+				book:[
+					{bookid:1, bookname:"축구", price:8000, publisher:"굿스포츠"},
+					{bookid:2, bookname:"야구", price:5000, publisher:"대한미디어"},
+					{bookid:3, bookname:"농구", price:7000, publisher:"나무수"}
+				]
+			}
+		})
+		
+		var box = new Vue({
+			el:"#box",
+			data:{
+				msg:"hello VueJS"
+			}
+		})
+		
+		// v-bind 속성은 디렉티브
+		// v- 접두어가 붙어있으며 사용자가 짐작할 수 있듯 렌더링 된 DOM에 특수한 반응형 동작
+		var box2 = new Vue({
+			el:"#box2",
+			data:{
+				name:"홍길동" + new Date().toLocaleString()
+			}
+		})
+		
+		// 조건문 v-if
+		var box3 = new Vue({
+			el:"#box3",
+			data:{
+				seen:true
+			}
+		})
+		
+		// 반복문 v-for
+		var box4 = new Vue({
+			el:"#box4",
+			data: {
+				todos:[
+					{text:"자바스크립트"},
+					{text:"VueJS"},
+					{text:"NodeJS"}
+				]	
+			}
+		})
+		
+	</script>
+</body>
+</html>

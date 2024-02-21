@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+	<table>
+		<thead>
+			<tr>
+				<td>도서번호</td>
+				<td>도서명</td>
+				<td>가격</td>
+				<td>출판사</td>
+			</tr>
+		</thead>
+		<tbody id="list">
+			<tr v-for="b in book" v-on:click="selectBook(b)">
+				<td>{{ b.bookid }}</td>
+				<td>{{ b.bookname }}</td>
+				<td>{{ b.price }}</td>
+				<td>{{ b.publisher }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div id="bookForm">
+		<input type="hidden" v-model="b.bookid"/>
+		도서명 : <input type="text" v-model="b.bookname" /><br />
+		가격 : <input type="number" v-model="b.price" /><br />
+		출판사 : <input type="text" v-model="b.publisher" /><br />
+		<button v-on:click="callAjax('/insertBook')">등록</button>
+		<button v-on:click="callAjax('/updateBook')">수정</button>
+		<button v-on:click="callAjax('/deleteBook')">삭제</button>
+	</div>
+
+	<script>
+		const axiosConfig = {
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			}
+		}
+		var bookForm = new Vue({
+			el: "#bookForm",
+			data: {
+				b:{
+					bookid:0,
+					bookname: "",
+					price: 0,
+					publisher: ""
+				}
+			},
+			methods: {
+				callAjax: function (url) {
+					axios.post(url, this.b, axiosConfig);
+					location.reload();
+					return false;
+				}
+			}
+		})
+
+
+		axios.get("/listBook").then((res) => {
+			var list = new Vue({
+				el: "#list",
+				data: {
+					book: res.data
+				},
+				methods:{
+					selectBook:function(b){
+						bookForm.b = b;
+					}
+				}
+			});
+		});
+	</script>
+</body>
+
+</html>
