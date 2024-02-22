@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+	<h2>상품등록</h2>
+	<hr />
+	<div id="goodsForm">
+		<input type="hidden" v-model="g.no"/>
+		상품명 : <input type="text" v-model="g.item"/><br />
+		가격 : <input type="number" v-model="g.price"/><br />
+		수량 : <input type="number" v-model="g.qty"/><br />
+		<input type="file" v-on:change="fileChange"/>
+		<img v-if="g.fname" :src="`/images/${g.fname}`"/>
+		<button v-on:click="callAjax('/inesrtGoods')">등록</button>
+		<button v-on:click="callAjax('/updateGoods')">수정</button>
+		<button v-on:click="callAjax('/deleteGoods')">삭제</button>
+	</div>
+	<hr />
+	<table border="1">
+		<thead>
+			<tr>
+				<th>상품번호</th>
+				<th>상품명</th>
+				<th>가격</th>
+				<th>수량</th>
+			</tr>
+		</thead>
+		<tbody id="list">
+			<tr v-for="g in goods" v-on:click="selectGoods(g)">
+				<td>{{ g.no }}</td>
+				<td>{{ g.item }}</td>
+				<td>{{ g.price }}</td>
+				<td>{{ g.qty }}</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<script>
+		const axiosConfig = {
+			headers: {
+				"Content-Type": "multipart/form-data"
+			}
+		}
+		
+		axios.get("/listGoods").then(function(res) {
+			var list = new Vue({
+				el:"#list",
+				data:{
+					goods:res.data
+				},
+				methods:{
+					selectGoods:function(g){
+						goodsForm.g = g;
+					}
+				}
+			})
+		});
+		
+		var goodsForm = new Vue({
+			el:"#goodsForm",
+			data:{
+				g:{
+					no:0,
+					item:"",
+					price:0,
+					qty:0,
+					uploadFile:null,
+					fname:""
+				}
+			},
+			methods:{
+				callAjax:function(url){
+					var data = new FormData();
+					data.append("no", this.g.no);
+					data.append("item", this.g.item);
+					data.append("price", this.g.price);
+					data.append("qty", this.g.qty);
+					data.append("uploadFile", this.g.uploadFile);
+					data.append("fname", this.g.fname);
+					
+					axios.post(url, data, axiosConfig).then(function(){
+						location.reload();
+					});
+				},
+				fileChange:function(event){
+					this.g.uploadFile = event.target.files[0];
+				}
+			}
+		})
+	</script>
+</body>
+</html>

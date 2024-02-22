@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+	<div id="deptForm">
+		부서번호 : <input type="text" v-model="d.dno"/><br />
+		부서명 : <input type="text" v-model="d.dname"/><br />
+		부서위치 : <input type="text" v-model="d.dloc"/><br />
+		<input type="file" v-on:change="handelFileChange"/>
+		<button v-on:click="callAjax('/insertDept')">등록</button>
+	</div>
+	
+	<h2>도서목록</h2>
+	<hr />
+	<table>
+		<thead>
+			<tr>
+				<th>부서번호</th>
+				<th>부서명</th>
+				<th>부서위치</th>
+			</tr>
+		</thead>
+		<tbody id="list">
+			<tr v-for="d in dept">
+				<td>{{ d.dno }}</td>
+				<td>{{ d.dname }}</td>
+				<td>{{ d.dloc }}</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<script>
+		const axiosConfig = {
+			headers: {
+				"Content-Type": "multipart/form-data"
+			}
+		}
+		
+		var deptForm = new Vue({
+			el:"#deptForm",
+			data:{
+				d:{
+					dno:0,
+					dname:"",
+					dloc:"",
+					uploadFile:null
+				}
+			},
+			methods:{
+				handelFileChange:function(event){
+					this.d.uploadFile = event.target.files[0];
+				},
+				callAjax:function(url){
+					// ajax통신으로 파일업로드 하려면 FormData에 담아서 보내야한다
+					let formDate = new FormData();
+					formDate.append("dno", this.d.dno);
+					formDate.append("dname", this.d.dname);
+					formDate.append("dloc", this.d.dloc);
+					formDate.append("uploadFile", this.d.uploadFile);
+					
+					axios.post(url, formDate, axiosConfig).then(function(){
+							location.reload();
+					})
+					
+				}
+			}
+		})
+		
+		axios.get("/listDept").then((res) => {
+			var list = new Vue({
+				el:"#list",
+				data: {
+					dept:res.data
+				},
+				methods:{}
+			})
+		})
+	</script>
+	
+</body>
+</html>
